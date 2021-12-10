@@ -2,11 +2,12 @@ import {
   Entity, Column, PrimaryGeneratedColumn,
   UpdateDateColumn,
   CreateDateColumn,
+  BaseEntity,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
   @Entity('samples')
-export default class SampleEntity {
+export default class SampleEntity extends BaseEntity {
     @ApiProperty({ type: String })
     @PrimaryGeneratedColumn()
      id: number = 1;

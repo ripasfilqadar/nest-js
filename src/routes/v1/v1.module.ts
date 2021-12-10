@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
+import SampleModule from '@v1/samples/sample.module';
 import { Routes, RouterModule } from 'nest-router';
 
 import AuthModule from './auth/auth.module';
-import { SampleModule } from './samples/sample.module';
 import UsersModule from './users/users.module';
 
 const routes: Routes = [

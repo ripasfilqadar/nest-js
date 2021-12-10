@@ -1,17 +1,18 @@
+import {
+  NotFoundException,
+  Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards,
+} from '@nestjs/common';
 /*
 https://docs.nestjs.com/controllers#controllers
 */
 
 import JwtAccessGuard from '@guards/jwt-access.guard';
 import {
-  Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards,
-} from '@nestjs/common';
-import {
   ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOkResponse, ApiParam, ApiTags,
 } from '@nestjs/swagger';
+import SampleEntity from '@v1/samples/schemas/sample.entity';
+import responseUtils from '@utils/response.utils';
 import SampleDto from './dto/sample.dto';
-import SampleRepository from './sample.repository';
-import { SampleService } from './sample.service';
 
 @ApiTags('Samples')
 @UseGuards(JwtAccessGuard)
@@ -19,14 +20,15 @@ import { SampleService } from './sample.service';
 @Controller('samples')
 export default class SamplesController {
   constructor(
-      private readonly sampleService: SampleService,
-      private readonly sampleRepository: SampleRepository,
   ) {
   }
 
   @Get()
-  getAllSample() {
-    return this.sampleRepository.getAllSample();
+  async getAllSample() {
+    const data = await SampleEntity.find();
+    return responseUtils.success(
+      'sample', data,
+    );
   }
 
   @UseGuards(JwtAccessGuard)
@@ -47,7 +49,10 @@ export default class SamplesController {
   })
   @Post()
   addSample(@Body() sample: SampleDto) {
-    return this.sampleRepository.addSample(sample);
+    const data = new SampleEntity();
+    data.qoute = sample.qoute;
+    SampleEntity.save(data);
+    return sample;
   }
 
   @ApiBody({ type: SampleDto })
@@ -56,8 +61,13 @@ export default class SamplesController {
   })
   @ApiParam({ name: 'id', type: Number })
   @Patch(':id')
-  updateData(@Body() sample: SampleDto, @Param('id') id: number) {
-    console.error(id);
-    return this.sampleRepository.updateRepository(id, sample);
+  async updateData(@Body() sample: SampleDto, @Param('id') id: number) {
+    const data = await SampleEntity.findOneOrFail(id);
+    if (data) {
+      data.qoute = sample.qoute;
+      data.save();
+      return data;
+    }
+    throw new NotFoundException('Data tidak ditemukan');
   }
 }
