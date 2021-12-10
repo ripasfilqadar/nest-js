@@ -6,7 +6,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 import V1Module from '@v1/v1.module';
-
 import AppService from './app.service';
 import AppController from './app.controller';
 import AppGateway from './app.gateway';
@@ -61,7 +60,8 @@ import AppGateway from './app.gateway';
     }),
     V1Module,
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController],
   providers: [AppService, AppGateway],
 })
-export default class AppModule {}
+export default class AppModule { }

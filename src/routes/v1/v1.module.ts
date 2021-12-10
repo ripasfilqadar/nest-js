@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { Routes, RouterModule } from 'nest-router';
 
 import AuthModule from './auth/auth.module';
+import { SampleModule } from './samples/sample.module';
 import UsersModule from './users/users.module';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
     RouterModule.forRoutes(routes),
     AuthModule,
     UsersModule,
+    SampleModule,
   ],
 })
 export default class V1Module {}

@@ -25,7 +25,7 @@ export default class UsersRepository {
   public async getByEmail(email: string): Promise<UserEntity | undefined> {
     return this.usersModel.findOne({
       where: [{
-        email
+        email,
       }],
     });
   }
