@@ -40,6 +40,7 @@ import UserEntity from '@v1/users/schemas/user.entity';
 import WrapResponseInterceptor from '@interceptors/wrap-response.interceptor';
 import AuthBearer from '@decorators/auth-bearer.decorator';
 import { Roles, RolesEnum } from '@decorators/roles.decorator';
+import { Console } from 'console';
 import authConstants from './auth-constants';
 import { DecodedUser } from './interfaces/decoded-user.interface';
 import LocalAuthGuard from './guards/local-auth.guard';
@@ -168,17 +169,21 @@ export default class AuthController {
     const { id, email } = await this.usersService.create(user);
     const token = this.authService.createVerifyToken(id);
 
-    await this.mailerService.sendMail({
-      to: email,
-      from: process.env.MAILER_FROM_EMAIL,
-      subject: authConstants.mailer.verifyEmail.subject,
-      template: `${process.cwd()}/src/templates/verify-password`,
-      context: {
-        token,
-        email,
-        host: process.env.SERVER_HOST,
-      },
-    });
+    try {
+      await this.mailerService.sendMail({
+        to: email,
+        from: process.env.MAILER_FROM_EMAIL,
+        subject: authConstants.mailer.verifyEmail.subject,
+        template: `${process.cwd()}/src/templates/verify-password`,
+        context: {
+          token,
+          email,
+          host: process.env.SERVER_HOST,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
 
     return ResponseUtils.success('auth', { message: 'Success! please verify your email' });
   }

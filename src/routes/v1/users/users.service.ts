@@ -3,12 +3,12 @@ import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
 
 import SignUpDto from '@v1/auth/dto/sign-up.dto';
-import UsersRepository from './users.repository';
 import { UpdateResult } from 'typeorm/index';
-import UserEntity from './schemas/user.entity';
-import UpdateUserDto from './dto/update-user.dto';
 import { PaginationParamsInterface } from '@interfaces/pagination-params.interface';
 import { PaginatedUsersInterface } from '@interfaces/paginatedEntity.interface';
+import UsersRepository from './users.repository';
+import UserEntity from './schemas/user.entity';
+import UpdateUserDto from './dto/update-user.dto';
 
 @Injectable()
 export default class UsersService {

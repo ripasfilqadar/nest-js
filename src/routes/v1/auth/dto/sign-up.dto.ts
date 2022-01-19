@@ -22,4 +22,17 @@ export default class SignUpDto {
   @MinLength(8)
   @MaxLength(64)
   readonly password: string = '';
+
+	@ApiProperty({ type: String })
+	@IsNotEmpty()
+	@IsString()
+	@MinLength(5)
+	@MaxLength(100)
+	readonly name: string = ''
+
+	@ApiProperty({ type: String })
+	@IsNotEmpty()
+	@IsString()
+	@MaxLength(20)
+	readonly phoneNumber: string = ''
 }

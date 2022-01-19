@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import SampleModule from '@v1/samples/sample.module';
 import { Routes, RouterModule } from 'nest-router';
 
 import AuthModule from './auth/auth.module';
@@ -20,7 +19,6 @@ const routes: Routes = [
     RouterModule.forRoutes(routes),
     AuthModule,
     UsersModule,
-    SampleModule,
   ],
 })
 export default class V1Module {}

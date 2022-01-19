@@ -13,6 +13,8 @@ export class UserResponseEntity {
 
   email: string = '';
 
+	name: string = ''
+
   @Exclude()
   password: string = '';
 }
